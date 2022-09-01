@@ -1,13 +1,9 @@
-// const personSchema = {
-//     name: 'string',
-//     age: 'number',
-//     siblings: 'array',
-//     metaData: 'object',
-//     active: 'boolean'
-//  }
-
 const personSchema = {
-  name: (value) => typeof value == "string"
+  name: (value) => typeof value == "string",
+  age: (value) => typeof value == "number",
+  siblings: (value) => Array.isArray(value),
+  metaData: (value) => typeof value == "object",
+  active: (value) => typeof value == "boolean"
 };
 
 // Validates true
@@ -28,15 +24,20 @@ const personObjF = {
 
 const validator = (obj, schema) => {
   for (let key in schema) {
-    if (schema[key](obj[key])) {
-      return true;
+    if (!obj.hasOwnProperty(key)) { // checks if the object has the key, or if it's a property of the object
+      return false;
+    } else { // checks value of the key against the schema
+      if (!schema[key](obj[key])) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
-  return false;
 };
 
 // Validates true
-console.log(validator(personObj, personSchema)); // James (is a string)
+console.log(validator(personObj, personSchema)); // James (is a string, supposed to be a string)
 
 // Validates false
-console.log(validator(personObjF, personSchema)); // '12' (is a number)
+console.log(validator(personObjF, personSchema)); // '12' (is a number, supposed to be a string)
