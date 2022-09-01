@@ -3,7 +3,7 @@
 //     age: 'number',
 //     siblings: 'array',
 //     metaData: 'object',
-//     active: 'boolean'
+//     active: 'boolean',
 //  }
 
 const personSchema = {
@@ -18,9 +18,19 @@ const personObj = {
   metaData: {},
   active: true
 };
+
 // Validates false
 const personObjF = {
-  name: "James",
+  name: 12,
   age: 25,
   active: true
+};
+
+const validator = (obj, schema) => {
+  for (let key in schema) {
+    if (schema[key](obj[key])) {
+      return true;
+    }
+  }
+  return false;
 };
