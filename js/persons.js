@@ -6,22 +6,6 @@ const personSchema = {
   active: (value) => typeof value == "boolean"
 };
 
-// Validates true
-const personObj = {
-  name: "James",
-  age: 25,
-  siblings: ["Johnnathan"],
-  metaData: {},
-  active: true
-};
-
-// Validates false
-const personObjF = {
-  name: 12,
-  age: 25,
-  active: true
-};
-
 const validator = (obj, schema) => {
   for (let key in schema) {
     if (!obj.hasOwnProperty(key)) { // checks if the object has the key, or if it's a property of the object
@@ -34,6 +18,24 @@ const validator = (obj, schema) => {
       }
     }
   }
+};
+
+/* -------- Testing of validator ------- */
+
+// Validates true
+const personObj = {
+  name: "James",
+  age: 25,
+  siblings: ["Johnnathan"],
+  metaData: {},
+  active: true
+};
+
+// Validates false
+const personObjF = {
+  name: "James",
+  age: 25,
+  active: true
 };
 
 // Validates true
