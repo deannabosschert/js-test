@@ -6,17 +6,33 @@ const personSchema = {
   active: (value) => typeof value == "boolean"
 };
 
-const validator = (obj, schema) => {
+function validateResponse(obj, schema) {
   for (let key in schema) {
-    return findKeyorProperty(obj, schema, key) ? checkValueType(obj, schema, key) : false;
+    return validate.findKeyorProperty(obj, schema, key)
+      ? validate.checkValueType(obj, schema, key)
+      : false;
   }
+}
+
+const validate = {
+  findKeyorProperty: (obj, schema, key) => !obj.hasOwnProperty(key) || !schema[key](obj[key]) ? false : true,
+  checkValueType: (obj, schema, key) => (!schema[key](obj[key]) ? false : true)
 };
 
-const findKeyorProperty = (obj, schema, key) => !obj.hasOwnProperty(key) || !schema[key](obj[key]) ? false : true;
-const checkValueType = (obj, schema, key) => !schema[key](obj[key]) ? false : true;
+// promise-based validation
+// const validateKeys = (obj) => {
+//   return new Promise((resolve, reject) => {
+//     if (validateResponse(obj, personSchema)) {
+//       resolve(obj);
+//     } else {
+//       reject(new Error("Invalid person"));
+//     }
+//   }).catch((err) => {
+//     console.log(err);
+//   });
+// };
 
-
-/* -------- Testing of validator ------- */
+/* -------- Testing this validator ------- */
 
 // Validates true
 const personObj = {
@@ -35,7 +51,7 @@ const personObjF = {
 };
 
 // Validates true
-console.log(validator(personObj, personSchema)); // James (is a string, supposed to be a string)
+console.log(validateResponse(personObj, personSchema)); // James (is a string, supposed to be a string)
 
 // Validates false
-console.log(validator(personObjF, personSchema)); // '12' (is a number, supposed to be a string)
+console.log(validateResponse(personObjF, personSchema)); // '12' (is a number, supposed to be a string)
