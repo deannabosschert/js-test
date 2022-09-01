@@ -7,13 +7,7 @@
 //  }
 
 const personSchema = {
-  name: (value) => {
-    if (typeof value == "string") {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  name: (value) => typeof value == "string"
 };
 
 // Validates true
@@ -24,7 +18,6 @@ const personObj = {
   metaData: {},
   active: true
 };
-
 // Validates false
 const personObjF = {
   name: "James",
