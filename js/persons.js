@@ -3,7 +3,7 @@
 //     age: 'number',
 //     siblings: 'array',
 //     metaData: 'object',
-//     active: 'boolean',
+//     active: 'boolean'
 //  }
 
 const personSchema = {
@@ -34,3 +34,9 @@ const validator = (obj, schema) => {
   }
   return false;
 };
+
+// Validates true
+console.log(validator(personObj, personSchema)); // James (is a string)
+
+// Validates false
+console.log(validator(personObjF, personSchema)); // '12' (is a number)
