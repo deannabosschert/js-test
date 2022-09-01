@@ -8,17 +8,13 @@ const personSchema = {
 
 const validator = (obj, schema) => {
   for (let key in schema) {
-    if (!obj.hasOwnProperty(key)) { // checks if the object has the key, or if it's a property of the object
-      return false;
-    } else { // checks value of the key against the schema
-      if (!schema[key](obj[key])) {
-        return false;
-      } else {
-        return true;
-      }
-    }
+    return findKeyorProperty(obj, schema, key) ? checkValueType(obj, schema, key) : false;
   }
 };
+
+const findKeyorProperty = (obj, schema, key) => !obj.hasOwnProperty(key) || !schema[key](obj[key]) ? false : true;
+const checkValueType = (obj, schema, key) => !schema[key](obj[key]) ? false : true;
+
 
 /* -------- Testing of validator ------- */
 
@@ -33,7 +29,7 @@ const personObj = {
 
 // Validates false
 const personObjF = {
-  name: "James",
+  name: 12,
   age: 25,
   active: true
 };
