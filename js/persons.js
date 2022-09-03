@@ -7,22 +7,18 @@ const personSchema = {
 };
 
 function validateResponse(obj, schema) {
-    for (let key in obj) {
-        
-        if (validate.findKeyorProperty(schema, key) == false) {
-            return false;
-        }
+  for (let key in obj) {
+    if (
+      validate.findKeyorProperty(schema, key) == false || validate.checkValueType(obj, schema, key) == false
+    ) {
+      return false;
+    }
+  }
+  return true;
 
-        if (validate.checkValueType(obj, schema, key) == false) {
-            return false;
-        }
-        }
-        return true;
-
-    // return validate.findKeyorProperty(obj, schema, key)
-    //   ? validate.checkValueType(obj, schema, key)
-    //   : false;
-  
+  // return validate.findKeyorProperty(obj, schema, key)
+  //   ? validate.checkValueType(obj, schema, key)
+  //   : false;
 }
 
 // const validate = {
@@ -31,7 +27,7 @@ function validateResponse(obj, schema) {
 // };
 
 const validate = {
-  findKeyorProperty: (schema, key) => !schema[key] ? false : true,
+  findKeyorProperty: (schema, key) => (!schema[key] ? false : true),
   checkValueType: (obj, schema, key) => (!schema[key](obj[key]) ? false : true)
 };
 
