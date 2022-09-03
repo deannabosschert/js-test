@@ -7,15 +7,31 @@ const personSchema = {
 };
 
 function validateResponse(obj, schema) {
-  for (let key in schema) {
-    return validate.findKeyorProperty(obj, schema, key)
-      ? validate.checkValueType(obj, schema, key)
-      : false;
-  }
+    for (let key in obj) {
+        
+        if (validate.findKeyorProperty(schema, key) == false) {
+            return false;
+        }
+
+        if (validate.checkValueType(obj, schema, key) == false) {
+            return false;
+        }
+        }
+        return true;
+
+    // return validate.findKeyorProperty(obj, schema, key)
+    //   ? validate.checkValueType(obj, schema, key)
+    //   : false;
+  
 }
 
+// const validate = {
+//   findKeyorProperty: (obj, schema, key) => !obj.hasOwnProperty(key) || !schema[key](obj[key]) ? false : true,
+//   checkValueType: (obj, schema, key) => (!schema[key](obj[key]) ? false : true)
+// };
+
 const validate = {
-  findKeyorProperty: (obj, schema, key) => !obj.hasOwnProperty(key) || !schema[key](obj[key]) ? false : true,
+  findKeyorProperty: (schema, key) => !schema[key] ? false : true,
   checkValueType: (obj, schema, key) => (!schema[key](obj[key]) ? false : true)
 };
 
